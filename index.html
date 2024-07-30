@@ -12,7 +12,9 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: white;
+            background-image: url(fundo.webp);
+            background-size: cover;
+            background-position: center;
             color: white;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
@@ -26,6 +28,9 @@
         #startScreen {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         #gameContainer {
@@ -34,31 +39,37 @@
 
         h1 {
             font-family: 'Press Start 2P', cursive;
-            font-size: 6vw;
-            text-align: center;
+            font-size: 4vw;
             margin-bottom: 20px;
-            margin-top: 50%;
         }
 
         button {
-            padding: 5vw 10vw;
-            font-size: 3vw;
+            padding: 2vw 4vw;
+            font-size: 2vw;
             cursor: pointer;
             margin-top: 5vw;
             background-color: white;
             color: black;
             font-family: 'Press Start 2P', cursive;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #ddd;
+            transform: scale(1.05);
         }
 
         .invaders-row {
             display: flex;
             justify-content: center;
-            margin-top: 8vw;
+            margin-top: 5vh;
         }
 
         .invader {
-            width: 7vw; /* Tamanho ajustado dos invasores */
-            height: 7vw; /* Tamanho ajustado dos invasores */
+            width: 4vw; /* Diminuído para 4vw */
+            height: 4vw; /* Diminuído para 4vw */
             margin: 1vw;
             background-size: contain;
             background-repeat: no-repeat;
@@ -67,20 +78,18 @@
 
         .footer {
             position: absolute;
-            bottom: 4vw;
-            font-size: 4vw;
+            bottom: 2vw;
+            font-size: 2vw;
             text-align: center;
             width: 100%;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
         }
 
         canvas {
             width: 90vw;
             height: 60vh;
-        }
-        div.footer{
-            color: white;
-            font-family: 'Press Start 2P', cursive;
-            text-align: left;
+            border: 2px solid white;
         }
     </style>
 </head>
@@ -93,7 +102,7 @@
             <div class="invader"></div>
             <div class="invader"></div>
         </div>
-        <button id="playButton">ENTRAR</button>
+        <button id="playButton">START</button>
         <div class="footer">SENAI</div>
     </div>
     <div id="gameContainer">
@@ -105,7 +114,7 @@
         const playButton = document.getElementById('playButton');
         const canvas = document.getElementById('gameCanvas');
         const context = canvas.getContext('2d');
-        let spaceshipTouchStartX = null;
+
         canvas.width = window.innerWidth * 0.9;
         canvas.height = window.innerHeight * 0.6;
 
@@ -122,10 +131,10 @@
         invaderImage.src = 'pngtree-space.png';
 
         const spaceship = {
-            x: canvas.width / 2 - 25,
-            y: canvas.height - 60,
-            width: 50,
-            height: 50,
+            x: canvas.width / 2 - 50, // Ajustado para centralizar a nave menor
+            y: canvas.height - 80,   // Ajustado para uma altura mais confortável
+            width: 60,               // Diminuído para 60px de largura
+            height: 60,              // Diminuído para 60px de altura
             dx: 5,
             lives: 3
         };
@@ -135,10 +144,10 @@
         const invaders = [];
         const invaderRows = 3;
         const invaderCols = 4;
-        let invaderWidth = 7 * (canvas.width / 80); // Tamanho ajustado dos invasores
-        let invaderHeight = 7 * (canvas.width / 80); // Tamanho ajustado dos invasores
-        const invaderPadding = 1.5 * (canvas.width / 80); // Ajuste o espaçamento entre os invasores
-        let invaderOffsetTop = 20 * (canvas.width / 800); // Ajuste o offset superior
+        let invaderWidth = 4 * (canvas.width / 80); // Diminuído conforme o tamanho atualizado
+        let invaderHeight = 4 * (canvas.width / 80); // Diminuído conforme o tamanho atualizado
+        const invaderPadding = 1.5 * (canvas.width / 80); 
+        let invaderOffsetTop = 15 * (canvas.width / 800); 
         let invaderOffsetLeft = (canvas.width - (invaderCols * (invaderWidth + invaderPadding))) / 2;
 
         function drawSpaceship() {
@@ -309,10 +318,10 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth * 0.9;
             canvas.height = window.innerHeight * 0.6;
-            invaderWidth = 7 * (canvas.width / 80); // Atualize o tamanho dos invasores
-            invaderHeight = 7 * (canvas.width / 80); // Atualize o tamanho dos invasores
-            invaderPadding = 1.5 * (canvas.width / 80); // Atualize o espaçamento
-            invaderOffsetTop = 20 * (canvas.width / 800); // Atualize o offset superior
+            invaderWidth = 4 * (canvas.width / 80); 
+            invaderHeight = 4 * (canvas.width / 80); 
+            invaderPadding = 1.5 * (canvas.width / 80); 
+            invaderOffsetTop = 15 * (canvas.width / 800); 
             invaderOffsetLeft = (canvas.width - (invaderCols * (invaderWidth + invaderPadding))) / 2;
         });
 
@@ -324,6 +333,7 @@
 
         window.addEventListener('load', () => {
             startGame();
+            adjustCanvasSize();
         });
 
         function adjustCanvasSize() {
@@ -348,14 +358,8 @@
             spaceshipTouchStartX = null;
         }
 
-        playButton.addEventListener('click', startGame);
-        playButton.addEventListener('touchstart', startGame);
-
         canvas.addEventListener('touchmove', handleTouchMove);
         canvas.addEventListener('touchend', clearTouchStart);
-
-        window.addEventListener('load', adjustCanvasSize);
-        window.addEventListener('resize', adjustCanvasSize);
     </script>
 </body>
 </html>
