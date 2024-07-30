@@ -11,11 +11,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Ensure full viewport height */
-            background-image: url("fundo\ \(2\).png");
+            min-height: 100vh;
+            background-color: white;
             color: white;
             font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Prevent scrolling on mobile */
+            overflow: hidden;
         }
 
         #startScreen, #gameContainer {
@@ -34,17 +34,17 @@
 
         h1 {
             font-family: 'Press Start 2P', cursive;
-            font-size: 6vw; /* Responsive font size */
+            font-size: 6vw;
             text-align: center;
             margin-bottom: 20px;
             margin-top: 50%;
         }
 
         button {
-            padding: 5vw 10vw; /* Responsive button padding */
-            font-size: 3vw; /* Responsive button font size */
+            padding: 5vw 10vw;
+            font-size: 3vw;
             cursor: pointer;
-            margin-top: 5vw; /* Responsive margin */
+            margin-top: 5vw;
             background-color: white;
             color: black;
             font-family: 'Press Start 2P', cursive;
@@ -53,13 +53,13 @@
         .invaders-row {
             display: flex;
             justify-content: center;
-            margin-top: 8vw; /* Responsive margin */
+            margin-top: 8vw;
         }
 
         .invader {
-            width: 10vw; /* Responsive invader size */
-            height: 10vw; /* Responsive invader size */
-            margin: 1vw; /* Responsive margin */
+            width: 7vw; /* Tamanho ajustado dos invasores */
+            height: 7vw; /* Tamanho ajustado dos invasores */
+            margin: 1vw;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center center;
@@ -67,15 +67,15 @@
 
         .footer {
             position: absolute;
-            bottom: 4vw; /* Responsive bottom margin */
-            font-size: 4vw; /* Responsive font size */
+            bottom: 4vw;
+            font-size: 4vw;
             text-align: center;
             width: 100%;
         }
 
         canvas {
-            width: 90vw; /* Adjust canvas width for mobile */
-            height: 60vh; /* Adjust canvas height for mobile */
+            width: 90vw;
+            height: 60vh;
         }
         div.footer{
             color: white;
@@ -88,7 +88,6 @@
     <div id="startScreen">
         <h1>SPACE ALIEN INVADERS</h1>
         <div class="invaders-row">
-            <!-- Placeholder divs for invaders -->
             <div class="invader"></div>
             <div class="invader"></div>
             <div class="invader"></div>
@@ -106,9 +105,9 @@
         const playButton = document.getElementById('playButton');
         const canvas = document.getElementById('gameCanvas');
         const context = canvas.getContext('2d');
-        let spaceshipTouchStartX = null
-        canvas.width = window.innerWidth * 0.9; // Adjust canvas size dynamically
-        canvas.height = window.innerHeight * 0.6; // Adjust canvas size dynamically
+        let spaceshipTouchStartX = null;
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = window.innerHeight * 0.6;
 
         playButton.addEventListener('click', () => {
             startScreen.style.display = 'none';
@@ -136,11 +135,11 @@
         const invaders = [];
         const invaderRows = 3;
         const invaderCols = 4;
-        let invaderWidth = 10 * (canvas.width / 80); // Responsive invader size
-        let invaderHeight = 10 * (canvas.width / 80); // Responsive invader size
-        const invaderPadding = 2 * (canvas.width / 80); // Responsive padding
-        let invaderOffsetTop = 30 * (canvas.width / 800); // Responsive offset
-        let invaderOffsetLeft = (canvas.width - (invaderCols * (invaderWidth + invaderPadding))) / 2; // Center invaders horizontally
+        let invaderWidth = 7 * (canvas.width / 80); // Tamanho ajustado dos invasores
+        let invaderHeight = 7 * (canvas.width / 80); // Tamanho ajustado dos invasores
+        const invaderPadding = 1.5 * (canvas.width / 80); // Ajuste o espaçamento entre os invasores
+        let invaderOffsetTop = 20 * (canvas.width / 800); // Ajuste o offset superior
+        let invaderOffsetLeft = (canvas.width - (invaderCols * (invaderWidth + invaderPadding))) / 2;
 
         function drawSpaceship() {
             context.drawImage(spaceshipImage, spaceship.x, spaceship.y, spaceship.width, spaceship.height);
@@ -153,7 +152,6 @@
                 bullet.y -= bullet.dy;
             });
 
-            // Remove bullets that are off-screen
             bullets.forEach((bullet, index) => {
                 if (bullet.y < 0) {
                     bullets.splice(index, 1);
@@ -168,7 +166,6 @@
                 bullet.y += bullet.dy;
             });
 
-            // Remove invader bullets that are off-screen
             invaderBullets.forEach((bullet, index) => {
                 if (bullet.y > canvas.height) {
                     invaderBullets.splice(index, 1);
@@ -206,7 +203,7 @@
         }
 
         function shootBullet() {
-            if (bullets.length < 3) { // Limit bullets on screen
+            if (bullets.length < 3) {
                 bullets.push({
                     x: spaceship.x + spaceship.width / 2 - 2.5,
                     y: spaceship.y,
@@ -228,7 +225,7 @@
                             height: 10,
                             dy: 3
                         });
-                        invader.canShoot = false; // Prevent repeated shooting
+                        invader.canShoot = false;
                     }
                 });
             });
@@ -271,8 +268,8 @@
 
         function drawLives() {
             context.fillStyle = 'white';
-            context.font = `${canvas.width * 0.03}px Arial`; // Responsive font size
-            context.fillText(`Lives: ${spaceship.lives}`, canvas.width - (canvas.width * 0.1), canvas.width * 0.02); // Responsive position
+            context.font = `${canvas.width * 0.03}px Arial`;
+            context.fillText(`Lives: ${spaceship.lives}`, canvas.width - (canvas.width * 0.1), canvas.width * 0.02);
         }
 
         function draw() {
@@ -312,20 +309,19 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth * 0.9;
             canvas.height = window.innerHeight * 0.6;
-            invaderWidth = 10 * (canvas.width / 800); // Update responsive values on resize
-            invaderHeight = 10 * (canvas.width / 800);
-            invaderPadding = 2 * (canvas.width / 800);
-            invaderOffsetTop = 30 * (canvas.width / 800);
+            invaderWidth = 7 * (canvas.width / 80); // Atualize o tamanho dos invasores
+            invaderHeight = 7 * (canvas.width / 80); // Atualize o tamanho dos invasores
+            invaderPadding = 1.5 * (canvas.width / 80); // Atualize o espaçamento
+            invaderOffsetTop = 20 * (canvas.width / 800); // Atualize o offset superior
             invaderOffsetLeft = (canvas.width - (invaderCols * (invaderWidth + invaderPadding))) / 2;
         });
 
         function startGame() {
             createInvaders();
-            setInterval(resetInvaderShooting, 2000); // Reset invader shooting every 2 seconds
+            setInterval(resetInvaderShooting, 2000);
             draw();
         }
 
-        // Ensure game starts automatically when page is fully loaded
         window.addEventListener('load', () => {
             startGame();
         });
@@ -333,10 +329,8 @@
         function adjustCanvasSize() {
             canvas.width = window.innerWidth * 0.9;
             canvas.height = window.innerHeight * 0.6;
-            // Update other responsive values here (invaderWidth, invaderHeight, etc.)
         }
 
-        // Handle touch movement for spaceship
         function handleTouchMove(event) {
             const touchX = event.touches[0].clientX;
             if (spaceshipTouchStartX) {
@@ -350,22 +344,16 @@
             spaceshipTouchStartX = touchX;
         }
 
-        // Clear touch start position on touch end
         function clearTouchStart() {
             spaceshipTouchStartX = null;
         }
 
-        // Update play button event listener to handle touch events
         playButton.addEventListener('click', startGame);
         playButton.addEventListener('touchstart', startGame);
 
-        // Add touch move listener for spaceship movement
         canvas.addEventListener('touchmove', handleTouchMove);
         canvas.addEventListener('touchend', clearTouchStart);
 
-        // Add your existing game logic functions here...
-
-        // Ensure game starts automatically when page is fully loaded
         window.addEventListener('load', adjustCanvasSize);
         window.addEventListener('resize', adjustCanvasSize);
     </script>
