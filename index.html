@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Invaders</title>
-    <!-- Importa a fonte retro "Press Start 2P" do Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* Estilos para o corpo da página */
         body {
             margin: 0;
             display: flex;
@@ -20,7 +18,6 @@
             overflow: hidden;
         }
 
-        /* Estilos para as telas iniciais, de jogo e de fim de jogo */
         #telaInicial, #containerJogo, #telaFimDeJogo {
             width: 80vw;
             height: 80vh;
@@ -35,7 +32,6 @@
             display: none;
         }
 
-        /* Estilos para o título principal */
         h1 {
             font-size: 3rem;
             margin-bottom: 20px;
@@ -44,7 +40,6 @@
             animation: fadeInTitle 2s ease-out 1s forwards, pulse 3s infinite;
         }
 
-        /* Animações para o título */
         @keyframes fadeInTitle {
             0% { opacity: 0; transform: translateY(-20px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -55,7 +50,6 @@
             50% { transform: scale(1.05); }
         }
 
-        /* Estilos para o botão */
         button {
             padding: 1vw 2vw;
             font-size: 1.5rem;
@@ -76,7 +70,6 @@
             box-shadow: 0 12px 20px rgba(0, 255, 255, 0.7);
         }
 
-        /* Estilos para o rodapé */
         .rodape {
             position: absolute;
             bottom: 2vw;
@@ -86,10 +79,8 @@
             color: white;
             font-family: 'Press Start 2P', cursive;
             text-shadow: 0 0 5px #0ff;
-            
         }
 
-        /* Estilos para o canvas do jogo */
         canvas {
             width: 90vw;
             height: 70vh;
@@ -98,7 +89,6 @@
             box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
         }
 
-        /* Estilos para o placar, nível e vidas */
         #placar, #nivel, #vidas {
             font-size: 1.5rem;
             margin-bottom: 1vw;
@@ -106,7 +96,6 @@
             text-shadow: 0 0 5px #0ff;
         }
 
-        /* Estilos para o melhor placar */
         #melhorPlacar {
             position: absolute;
             top: 2vw;
@@ -116,7 +105,6 @@
             text-shadow: 0 0 5px #0ff;
         }
 
-        /* Animação de piscar para a nave */
         .piscar {
             animation: blink 0.2s step-start 5;
         }
@@ -125,7 +113,6 @@
             50% { opacity: 0; }
         }
 
-        /* Estilos para a tela de fim de jogo */
         #telaFimDeJogo h1 {
             font-size: 4rem;
             margin-bottom: 20px;
@@ -140,12 +127,12 @@
             border: 2px solid #f00;
             box-shadow: 0 8px 15px rgba(255, 0, 0, 0.5);
         }
+
     </style>
 </head>
 <body>
-    <!-- Tela inicial do jogo -->
     <div id="telaInicial">
-        <h1>SPACE INVADERS</h1>
+        <h1>INVASORES ESPACIAIS</h1>
         <div class="linha-invasores">
             <div class="invasor"></div>
             <div class="invasor"></div>
@@ -156,9 +143,8 @@
         <div class="rodape">SENAI</div>
     </div>
     
-    <!-- Contêiner do jogo -->
     <div id="containerJogo">
-        <div id="melhorPlacar">Melhor Placar: 0</div> <!-- Melhor Placar Display -->
+        <div id="melhorPlacar">Melhor Placar: 0</div>
         <div id="placar">Placar: 0</div>
         <canvas id="canvasJogo"></canvas>
         <div id="nivel">Nível: 1</div>
@@ -166,7 +152,6 @@
         <nav class="rodape">SENAI</div>
     </div>
 
-    <!-- Tela de fim de jogo -->
     <div id="telaFimDeJogo">
         <h1>GAME OVER</h1>
         <button id="botaoReiniciar">REINICIAR</button>
@@ -186,11 +171,9 @@
         const vidasDisplay = document.getElementById('vidas');
         const melhorPlacarDisplay = document.getElementById('melhorPlacar');
 
-        // Ajusta o tamanho do canvas para se adaptar à tela
         canvas.width = window.innerWidth * 0.9;
         canvas.height = window.innerHeight * 0.7;
 
-        // Eventos de clique nos botões
         botaoJogar.addEventListener('click', () => {
             telaInicial.style.display = 'none';
             containerJogo.style.display = 'flex';
@@ -205,18 +188,16 @@
             iniciarJogo();
         });
 
-        // Carrega imagens e sons
         const imagemNave = new Image();
-        imagemNave.src = 'spacenave.webp'; 
+        imagemNave.src = 'spacenave.webp';
 
         const imagemInvasor = new Image();
-        imagemInvasor.src = 'invasor.png'; 
+        imagemInvasor.src = 'invasor.png';
 
         const somExplosao = new Audio('https://www.soundjay.com/button/sounds/button-4.mp3');
         const somDisparo = new Audio('https://www.soundjay.com/button/sounds/button-3.mp3');
         const somFimDeJogo = new Audio('https://www.soundjay.com/button/sounds/button-2.mp3');
 
-        // Variáveis do jogo
         let nave = { x: canvas.width / 2 - 30, y: canvas.height - 60, largura: 60, altura: 60, velocidade: 10 };
         let balas = [];
         let balasInvasor = [];
@@ -229,7 +210,6 @@
         let fimDeJogo = false;
         let ultimoTempoFrame = 0;
 
-        // Função para criar os invasores no início do jogo
         function criarInvasores() {
             const linhas = 5;
             const colunas = 8;
@@ -246,19 +226,16 @@
             }
         }
 
-        // Função para desenhar a nave do jogador no canvas
         function desenharNave() {
             contexto.drawImage(imagemNave, nave.x, nave.y, nave.largura, nave.altura);
         }
 
-        // Função para desenhar os invasores no canvas
         function desenharInvasores() {
             invasores.forEach(invasor => {
                 contexto.drawImage(imagemInvasor, invasor.x, invasor.y, invasor.largura, invasor.altura);
             });
         }
 
-        // Função para desenhar as balas disparadas pelo jogador e pelos invasores
         function desenharBalas() {
             contexto.fillStyle = 'white';
             balas.forEach(bala => {
@@ -270,7 +247,6 @@
             });
         }
 
-        // Função para atualizar a posição das balas no jogo
         function atualizarBalas() {
             balas = balas.filter(bala => {
                 bala.y -= bala.velocidade;
@@ -283,7 +259,6 @@
             });
         }
 
-        // Função para disparar uma bala da nave do jogador
         function dispararBala() {
             balas.push({
                 x: nave.x + nave.largura / 2 - 2.5,
@@ -295,7 +270,6 @@
             somDisparo.play();
         }
 
-        // Função para disparar uma bala de um invasor
         function dispararBalaInvasor(invasor) {
             balasInvasor.push({
                 x: invasor.x + invasor.largura / 2 - 2.5,
@@ -306,7 +280,6 @@
             });
         }
 
-        // Função para mover a nave do jogador com base nas teclas pressionadas
         function moverNave() {
             if (teclas['ArrowLeft'] && nave.x > 0) {
                 nave.x -= nave.velocidade;
@@ -316,7 +289,6 @@
             }
         }
 
-        // Função para detectar colisões entre balas e invasores ou a nave do jogador
         function detectarColisoes() {
             balas.forEach((bala, indiceBala) => {
                 invasores.forEach((invasor, indiceInvasor) => {
@@ -347,7 +319,6 @@
             });
         }
 
-        // Função para atualizar o comportamento dos invasores
         function atualizarInvasores() {
             invasores.forEach(invasor => {
                 if (Math.random() < 0.001 * nivel) {
@@ -356,7 +327,6 @@
             });
         }
 
-        // Função para atualizar a exibição do placar, nível e vidas
         function atualizarPlacarENivel() {
             placar.textContent = `Placar: ${placarAtual}`;
             nivelDisplay.textContent = `Nível: ${nivel}`;
@@ -364,7 +334,6 @@
             melhorPlacarDisplay.textContent = `Melhor Placar: ${melhorPlacar}`;
         }
 
-        // Função para fazer a nave do jogador piscar ao ser atingida
         function piscarNave() {
             const elementoNave = canvas;
             elementoNave.classList.add('piscar');
@@ -373,7 +342,6 @@
             }, 1000);
         }
 
-        // Função para iniciar o jogo
         function iniciarJogo() {
             placarAtual = 0;
             nivel = 1;
@@ -385,7 +353,6 @@
             cicloDoJogo();
         }
 
-        // Função para finalizar o jogo e exibir a tela de fim de jogo
         function finalizarJogo() {
             somFimDeJogo.play();
             if (placarAtual > melhorPlacar) {
@@ -397,7 +364,6 @@
             containerJogo.style.display = 'none';
         }
 
-        // Função principal do ciclo do jogo, que atualiza e renderiza todos os elementos
         function cicloDoJogo(timestamp) {
             if (fimDeJogo) return;
 
@@ -423,7 +389,6 @@
             requestAnimationFrame(cicloDoJogo);
         }
 
-        // Listeners de eventos de teclado
         window.addEventListener('keydown', (e) => {
             if (e.key === ' ') {
                 dispararBala();
